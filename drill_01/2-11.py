@@ -10,5 +10,5 @@ money = eval(input("약정 금액을 입력하세요: "))
 year_rate = eval(input("연이율(%)을 입력하세요: "))
 month_rate = year_rate / 1200
 year = eval(input("약정 기간(년) 을 입력하세요:"))
-pay = money / (1 + month_rate) * (year * 12)
+pay = money / (1 + month_rate) ** (year * 12)
 print('월 납입금은 %f입니다' % pay)
