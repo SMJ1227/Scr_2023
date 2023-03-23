@@ -27,3 +27,8 @@ for i in range(N):
         elif D[genres[i]][2][1] < plays[i]:
             D[genres[i]][2] = (i, plays[i])
 
+#print(D)
+#for i in range(2):
+    #print(plays)
+    #print(max(plays))
+print(plays.index(max(plays)))
