@@ -31,4 +31,5 @@ for i in range(N):
 #for i in range(2):
     #print(plays)
     #print(max(plays))
-print(plays.index(max(plays)))
+print(D)
+#print(plays.index(max(plays)))
