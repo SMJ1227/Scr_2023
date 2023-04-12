@@ -35,5 +35,17 @@ for i in range(N):
 #print(D) #딕셔너리 출력
 #print(plays.index(max(plays))) # 재생횟수중 재생횟수가 최대값 인덱스 출력
 #print(plays[0])
-print(D[genres[0]][0])# 장르별 재생횟수
-print(sorted(D, reverse=True))
+#print(D[genres[0]][0])# 장르별 재생횟수
+#print(sorted(D, reverse=True))
+# for i in range(2):
+#     for j in range(2):
+#         print(D[genres[i]][0])
+#print(sorted_dict)
+
+sorted_dict = sorted(D.items(), key=lambda x: x[1], reverse=True)
+for i in range(len(sorted_dict)):
+    for j in range(1, 3):
+        if sorted_dict[i][1][j][0] == -1:
+            pass
+        else:
+            print(sorted_dict[i][1][j][0])
