@@ -53,7 +53,7 @@ class MainGUI:
             else:
                 self.explain.set('플레이어 O차례')
         self.count += 1
-        if self.count == 9:
+        if not self.done and self.count == 9:
             self.explain.set('비겼습니다.')
 
     def check(self):
