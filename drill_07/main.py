@@ -13,6 +13,7 @@ class MainGUI:
         self.matrix = []
         self.done = False # 게임 종료 여부
         self.turn = True # True = X, False = O, 턴 제어 변수
+        self.count = 0 # 턴 수 세기
         for i in range(3):
             self.matrix.append([])
             for j in range(3):
@@ -32,6 +33,8 @@ class MainGUI:
                 self.matrix[i][j]['text'] = ' '
         self.done = False
         self.turn = True
+        self.count = 0
+        self.explain.set('플레이어 X차례')
 
     def pressed(self, row, col):
         if not self.done and self.matrix[row][col]['text'] == ' ':
@@ -49,6 +52,9 @@ class MainGUI:
                 self.explain.set('플레이어 X차례')
             else:
                 self.explain.set('플레이어 O차례')
+        self.count += 1
+        if self.count == 9:
+            self.explain.set('비겼습니다.')
 
     def check(self):
         for i in range(3):
