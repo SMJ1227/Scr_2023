@@ -199,6 +199,8 @@ class BlackJack:
         self.B1['bg'] = 'white'
         self.Again['state'] = 'disabled'
         self.Again['bg'] = 'gray'
+        self.LcardsPlayer.remove()
+        self.LcardsDealer.clear()
 
     def setupLabel(self):
         self.LbetMoney = Label(text='$0', width=4, height=1, font=self.fontstyle, bg='green', fg='cyan')
