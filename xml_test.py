@@ -13,40 +13,40 @@ import requests
 import xml.etree.ElementTree as ET
 import tkinter
 
-#병원정보 서비스 예제
-url = 'http://apis.data.go.kr/B551182/hospInfoServicev2/getHospBasisList'
+#기상청 동네예보 통보문 조회서비스
+url = 'http://apis.data.go.kr/1360000/VilageFcstMsgService/getWthrSituation'
 # 공공데이터포털에서 발급받은 디코딩되지 않은 인증키 입력
-service_key = "sea100UMmw23Xycs33F1EQnumONR/9ElxBLzkilU9Yr1oT4TrCot8Y2p0jyuJP72x9rG9D8CN5yuEs6AS2sAiw=="
-queryParams = {'serviceKey': service_key, 'pageNo': '1', 'numOfRows': '10', 'sidoCd': '110000', 'sgguCd': '110019'}
+service_key_weather = "ZFXmFX0IXF2lZtUXaZW+lLjQUBH3AFz14p6BfEC8AFWev/Xplh7PYsaHYzPkqXnMJ03TJbhvS4jBYA2aRNAglQ=="
+queryParams_weather = {'ServiceKey': service_key_weather, 'pageNo': '1', 'numOfRows': '10', 'dataType': 'XML', 'stnId': '109'}
 
-response = requests.get(url, params=queryParams)
-print(response.text)
-root = ET.fromstring(response.text)
+response_weather = requests.get(url, params=queryParams_weather)
+print(response_weather.content)
+root = ET.fromstring(response_weather.content)
 
 window = tkinter.Tk()
-window.title('병원정보')
+window.title('기상개황조회')
 
 frame = tkinter.Frame(window)
 frame.pack()
 
-header = ['Name', 'Addr', 'Tel', 'Url']
+header = ['stnId', 'tmFc', 'wfSv1', 'wn', 'wr']
 
 for i, col_name in enumerate(header):
-    label = tkinter.Label(frame, text=col_name, font=("Helvetica", 14, "bold"))
-    label.grid(row=0, column=i)
+    label = tkinter.Label(frame, text=col_name, font=("Helvetica", 14, "bold"), borderwidth=1, relief="raised")
+    label.grid(row=i, column=0)
 
-row_count = 1
+col_count = 1
 for item in root.iter('item'):
-    yadmNm = item.findtext('yadmNm')
-    addr = item.findtext("addr")
-    telno = item.findtext("telno")
-    hospUrl = item.findtext("hospUrl")
-    data = [yadmNm, addr, telno, hospUrl]
+    stnId = item.findtext('stnId')
+    tmFc = item.findtext("tmFc")
+    wfSv1 = item.findtext("wfSv1")
+    wn = item.findtext("wn")
+    wr = item.findtext("wr")
+    data = [stnId, tmFc, wfSv1, wn, wr]
     for i, value in enumerate(data):
-        label = tkinter.Label(frame, text=value, font=("Helvetica", 12))
-        label.grid(row=row_count, column=i)
-
-    row_count += 1
+        label = tkinter.Label(frame, text=value, font=("Helvetica", 12), borderwidth=10, relief="ridge")
+        label.grid(row=i, column=col_count)
+    col_count += 1
 
 window.mainloop()
 

@@ -20,7 +20,7 @@ class BlackJack:
         self.dealer = Player("dealer")
         self.betMoney = 0
         self.playerMoney = 1000
-        self.nCardsDealer = 0
+        self.nCardsDealer = 3
         self.nCardsPlayer = 0
         self.LcardsPlayer = []
         self.LcardsDealer = []
@@ -124,29 +124,29 @@ class BlackJack:
         self.LcardsDealer[self.dealer.inHand() - 1].place(x=250+n*30, y=150)
 
     def checkWinner(self):
+        # 뒤집힌 카드를 다시 그린다.
+        p = PhotoImage(file="cards/" + self.dealer.cards[0].filename())
+        self.LcardsDealer[0].configure(image=p)  # 이미지 레퍼런스 변경
+        self.LcardsDealer[0].image = p  # 파이썬은 라벨 이미지 레퍼런스를 갖고 있어야 이미지가 보임
+        self.LdealerPts.configure(text=str(self.dealer.value()))
+
         if self.player.value() > 21:
             self.Lstatus.configure(text="Player Busts")
             PlaySound('sounds/wrong.wav', SND_FILENAME)
+        elif self.dealer.value() > 21:
+            self.Lstatus.configure(text="Dealer Busts")
+            self.playerMoney += self.betMoney * 2
+            PlaySound('sounds/win.wav', SND_FILENAME)
+        elif self.dealer.value() == self.player.value():
+            self.Lstatus.configure(text="Push")
+            self.playerMoney += self.betMoney
+        elif self.dealer.value() < self.player.value():
+            self.Lstatus.configure(text="You won!!")
+            self.playerMoney += self.betMoney * 2
+            PlaySound('sounds/win.wav', SND_FILENAME)
         else:
-            # 뒤집힌 카드를 다시 그린다.
-            p = PhotoImage(file="cards/" + self.dealer.cards[0].filename())
-            self.LcardsDealer[0].configure(image=p)  # 이미지 레퍼런스 변경
-            self.LcardsDealer[0].image = p  # 파이썬은 라벨 이미지 레퍼런스를 갖고 있어야 이미지가 보임
-            self.LdealerPts.configure(text=str(self.dealer.value()))
-            if self.dealer.value() > 21:
-                self.Lstatus.configure(text="Dealer Busts")
-                self.playerMoney += self.betMoney * 2
-                PlaySound('sounds/win.wav', SND_FILENAME)
-            elif self.dealer.value() == self.player.value():
-                self.Lstatus.configure(text="Push")
-                self.playerMoney += self.betMoney
-            elif self.dealer.value() < self.player.value():
-                self.Lstatus.configure(text="You won!!")
-                self.playerMoney += self.betMoney * 2
-                PlaySound('sounds/win.wav', SND_FILENAME)
-            else:
-                self.Lstatus.configure(text="Sorry you lost!")
-                PlaySound('sounds/wrong.wav', SND_FILENAME)
+            self.Lstatus.configure(text="Sorry you lost!")
+            PlaySound('sounds/wrong.wav', SND_FILENAME)
         self.betMoney = 0
         self.LplayerMoney.configure(text="You have $" + str(self.playerMoney))
         self.LbetMoney.configure(text="$" + str(self.betMoney))
@@ -191,6 +191,17 @@ class BlackJack:
         self.B1['bg'] = 'gray'
 
     def pressedAgain(self):
+        # 딜러와 플레이어 카드 라벨 이미지 삭제
+        for i in range(self.dealer.inHand()):
+            self.LcardsDealer[i].configure(bg='green', image='')
+        for i in range(self.player.inHand()):
+            self.LcardsPlayer[i].configure(bg='green', image='')
+        self.LcardsDealer.clear()
+        self.LcardsPlayer.clear()
+        self.LdealerPts.configure(text="")
+        self.LPlayerPts.configure(text="")
+        self.Lstatus.configure(text="")
+
         self.B50['state'] = 'active'
         self.B50['bg'] = 'white'
         self.B10['state'] = 'active'
@@ -199,8 +210,6 @@ class BlackJack:
         self.B1['bg'] = 'white'
         self.Again['state'] = 'disabled'
         self.Again['bg'] = 'gray'
-        self.LcardsPlayer.remove()
-        self.LcardsDealer.clear()
 
     def setupLabel(self):
         self.LbetMoney = Label(text='$0', width=4, height=1, font=self.fontstyle, bg='green', fg='cyan')
