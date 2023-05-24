@@ -23,7 +23,7 @@ class Player:
     def getLowerScore(self):
         sum = 0
         for i in range(self.UPPER):
-            sum += self.scores[UPPER+i]
+            sum += self.scores[self.UPPER+i]
             self.lowerScore = sum
         return self.lowerScore
 
@@ -42,7 +42,7 @@ class Player:
 
     def allLowerUsed(self): #lower category 7개 모두 사용되었는가 ?
         for i in range(self.LOWER):
-            if self.used[UPPER+i] == False:
+            if self.used[self.UPPER+i] == False:
                 return False
         return True
 
