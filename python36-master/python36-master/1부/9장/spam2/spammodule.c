@@ -18,22 +18,22 @@ spam_strlen(PyObject *self, PyObject *args)
 static PyObject *
 spam_division(PyObject *self, PyObject *args)
 {
-    int quotient=0;
-    int dividend,divisor=0; 
+    float quotient=0.0;
+    float dividend,divisor=0.0; 
            
-    if (!PyArg_ParseTuple(args, "ii", &dividend,&divisor)) //피제수와 제수 할당
+    if (!PyArg_ParseTuple(args, "ff", &dividend,&divisor)) //피제수와 제수 할당
           return NULL;
    
     if (divisor){
-         quotient = dividend/divisor;
-    } else {  // 제수가 0일 때 예외 처리를 합니다.
+        quotient = dividend/divisor;
+    }
+    else {  // 제수가 0일 때 예외 처리를 합니다.
          // 예외 처리를 할 때는 반드시 NULL을 리턴 해줍니다. PyErr_SetString함수는 항상 NULL을 리턴합니다.
          //PyExc_ZeroDivisionError는 0으로 나누려고 할 때 쓰는 예외입니다.
-         PyErr_SetString(PyExc_ZeroDivisionError, "divisor must not be zero");
-         return  NULL;
+        PyErr_SetString(PyExc_ZeroDivisionError, "divisor must not be zero");
+        return  NULL;
     }
-    
-    return Py_BuildValue("i",quotient);
+    return Py_BuildValue("f",quotient);
 }
 
 

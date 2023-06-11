@@ -30,6 +30,8 @@ else:
 import os
 import sys
 import urllib.request
+import spam
+
 client_id = "haTmx_2L7UB1bo68x0d8"
 client_secret = "Zf0wkFCKHv"
 encText = urllib.parse.quote("미국 국기 jpg")
@@ -46,3 +48,4 @@ if(rescode==200):
     print(response_body.decode('utf-8'))
 else:
     print("Error Code:" + rescode)
+
